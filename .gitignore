@@ -1,5 +1,7 @@
 node_modules
 *.png
 *.jpeg
-*.jpe
+*.jpg
 *.pdf
+*.txt
+!/uploads/resized
