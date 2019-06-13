@@ -6,10 +6,11 @@ header#main-header{
 
 header#main-header .header-content {
     width: 100%;
-    max-width: 980px;
+    max-width: 720px;
     margin: 0 auto;
     height: 72px;
     padding: 0 30px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
