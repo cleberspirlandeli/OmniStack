@@ -9,7 +9,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 
-mongoose.connect('mongodb+srv://crspirlandeli:92novaSenha!@cluster0-6qsry.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true
 });
 
@@ -24,6 +24,4 @@ app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads', 'resiz
 
 app.use(require('./routes'));
 
-server.listen(3333, () => {
-    console.log('Rodando na porta 3333')
-})
+server.listen(process.env.PORT || 3333);
