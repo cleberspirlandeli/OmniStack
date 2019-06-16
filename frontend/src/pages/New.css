@@ -32,3 +32,15 @@ form#new-post button {
   font-weight: bold;
   cursor: pointer;
 }
+
+p {
+  margin-top: 7px;
+  font-weight: bold;
+}
+
+/* MOBILE */
+@media only screen and (max-width: 600px) {
+  form#new-post{
+    max-width: 310px;
+  }
+}

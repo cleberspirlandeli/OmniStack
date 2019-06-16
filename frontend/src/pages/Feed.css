@@ -67,3 +67,13 @@ section#post-list article footer p span {
     color: #7159C1;
     display: block;
 }
+
+
+
+
+/* MOBILE */
+@media only screen and (max-width: 600px) {
+    section#post-list {
+        max-width: 310px;
+    }
+} 

@@ -11,6 +11,7 @@ export default class New extends Component {
         place: '',
         description: '',
         hashtags: '',
+        formError: false,
     }
 
     handleImageChange = e => {
@@ -23,6 +24,18 @@ export default class New extends Component {
 
     handleSubmit = async e => {
         e.preventDefault();
+
+        let err = false;
+        if (this.state.imagem === null) err = true;
+        if (this.state.author.length === 0) err = true;
+        if (this.state.place.length === 0) err = true;
+        if (this.state.description.length === 0) err = true;
+        if (this.state.hashtags.length === 0) err = true;
+
+        if (err) {
+            this.setState({ formError: true });
+            return;
+        }
 
         const data = new FormData();
         data.append('image', this.state.image);
@@ -49,7 +62,7 @@ export default class New extends Component {
                 <input
                     type="text"
                     name="author"
-                    placeholder="Autor do post"
+                    placeholder="Autor do post *"
                     onChange={this.handleChange}
                     value={this.state.author}
                 />
@@ -57,7 +70,7 @@ export default class New extends Component {
                 <input
                     type="text"
                     name="place"
-                    placeholder="Local do post"
+                    placeholder="Local do post *"
                     onChange={this.handleChange}
                     value={this.state.place}
                 />
@@ -65,7 +78,7 @@ export default class New extends Component {
                 <input
                     type="text"
                     name="description"
-                    placeholder="Descrição do post"
+                    placeholder="Descrição do post *"
                     onChange={this.handleChange}
                     value={this.state.description}
                 />
@@ -73,12 +86,16 @@ export default class New extends Component {
                 <input
                     type="text"
                     name="hashtags"
-                    placeholder="Hashtags do post"
+                    placeholder="Hashtags do post *"
                     onChange={this.handleChange}
                     value={this.state.hashtags}
                 />
 
                 <button type="submit"> Enviar</button>
+
+                { this.state.formError && (
+                    <p>** Campo obrigatório não informado! **</p>
+                ) }
 
             </form>
         );
