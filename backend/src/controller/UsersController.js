@@ -1,14 +1,16 @@
 const md5 = require('md5');
 const Users = require('../models/Users');
 const Email = require('./../config/emails');
+const { GenerateToken } = require('./../config/token');
 
 module.exports = {
-    
-    // GET - users
+
+    // GET - all users
     async index(req, res) {
+
         const users = await Users.find().sort('-createdAt');
 
-        return res.status(200).json(users);
+        return res.status(200).json({ users });
     },
 
     // POST - register
@@ -16,9 +18,9 @@ module.exports = {
 
         try {
             let { name, email, password } = req.body;
-            password = md5(password);
+            password = md5(password + process.env.SALT_KEY_PASSWORD);
 
-            const userValid = await Users.find({ "email": email });
+            const userValid = await Users.find({ email });
 
             if (userValid.length === 0) {
                 const user = await Users.create({
@@ -36,7 +38,7 @@ module.exports = {
             return res.status(400).json(userValid);
 
         } catch (error) {
-            return res.status(500).json(error);
+            return res.status(500).json(error.message);
         }
     },
 
@@ -46,7 +48,7 @@ module.exports = {
         try {
 
             let { email, password } = req.body;
-            password = md5(password);
+            password = md5(password + process.env.SALT_KEY_PASSWORD);
 
             const user = await Users.find({
                 $and: [
@@ -57,13 +59,15 @@ module.exports = {
             });
 
             if (user.length === 1) {
-                return res.status(200).json(user);
+                const token = await GenerateToken(user[0]);
+
+                return res.status(200).json({ token, user });
             } else {
-                return res.status(401).json({ "email": email, "password": password });
+                return res.status(401).json({ email });
             }
 
         } catch (error) {
-            return res.status(500).json(error);
+            return res.status(500).json(error.message);
         }
     },
 
@@ -79,12 +83,14 @@ module.exports = {
 
                 await user.save(user);
 
-                return res.status(200).json(user);
+                const token = await GenerateToken(user);
+
+                return res.status(200).json({ token, user });
             } else {
                 return res.status(400).json({ "sucess": false });
             }
         } catch (error) {
-            return res.status(500).json(error);
+            return res.status(500).json(error.message);
         }
     }
 };

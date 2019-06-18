@@ -1,43 +1,34 @@
-const Users = require('./../models/Users');
-const md5 = require('md5');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
 
-    async login(req, res, next) {
-        try {
-            let { email, password } = req.body;
-            password = md5(password);
+    async GenerateToken({ id, name, email }) {
 
-            const user = await Users.find({
-                $and: [
-                    { "email": email },
-                    { "password": password },
-                    { "active": 1 }
-                ]
-            });
-
-            if (user.length === 1) {
-                const token = jwt.sign(user, process.env.SECRET_KEY, {
-                    expiresIn: "1 day"
-                });
-
-                return res.status(200).json({ "token": token });
-            }
-
-            return res.status(400).json({ "token": null });
-
-        } catch (error) {
-            res.status(500).json(error);
-        }
+        return jwt.sign({ id, name, email }, process.env.SALT_KEY_JWT, {
+            expiresIn: '1d' // expires in 24 hours
+        });
     },
 
-    async validateToken(req, res, next) {
-        const token = req.body.token || ''
+    async Authorize(req, res, next) {
+        let token = req.headers['authorization'] || req.body.token || req.query.token;
 
-        jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-            res.status(200).json({ valid: !err });
-        });
-    }
+        if (!token) {
+            res.status(401).json({
+                message: 'Token inválido'
+            });
+        } else {
+            jwt.verify(token, process.env.SALT_KEY_JWT, (err, decoded) => {
+                if (err) {
+                    res.status(401).json({
+                        success: false,
+                        message: 'Token inválido'
+                    });
+                } else {
+                    req.body.token = decoded;
+                    next();
+                }
+            });
+        }
+    },
 
 }
