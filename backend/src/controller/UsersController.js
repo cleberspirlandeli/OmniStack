@@ -1,7 +1,7 @@
 const md5 = require('md5');
 const Users = require('../models/Users');
 const Email = require('./../config/emails');
-const { GenerateToken } = require('./../config/token');
+const { GenerateToken, DecodedToken } = require('./../config/token');
 
 module.exports = {
 
@@ -42,6 +42,21 @@ module.exports = {
         }
     },
 
+    async decoded(req, res) {
+        const token = req.headers['authorization'] || req.body.token || req.query.token || null;
+
+        if (token) {
+            const validToken = await DecodedToken(token);
+
+            if (validToken.success) {
+                res.status(200).json({ token: validToken });
+            } else {
+                res.status(200).json({ token: false });
+            }
+        }
+        res.status(200).json({ token: false });
+    },
+
     // POST - authentication
     async authentication(req, res) {
 
@@ -61,9 +76,9 @@ module.exports = {
             if (user.length === 1) {
                 const token = await GenerateToken(user[0]);
 
-                return res.status(200).json({ token, user });
+                return res.status(200).json({ token });
             } else {
-                return res.status(401).json({ email });
+                return res.status(401).json({ token: null, email });
             }
 
         } catch (error) {

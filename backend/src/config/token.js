@@ -9,6 +9,23 @@ module.exports = {
         });
     },
 
+
+    async DecodedToken(token) {
+
+        if (!token) {
+            return false;
+        } else {
+            jwt.verify(token, process.env.SALT_KEY_JWT, (err, decoded) => {
+                if (err) {
+                    return { success: false };
+                } else {
+                    return { success: true, decoded };
+                }
+            });
+        }
+    },
+
+
     async Authorize(req, res, next) {
         let token = req.headers['authorization'] || req.body.token || req.query.token;
 
@@ -17,6 +34,7 @@ module.exports = {
                 message: 'Token inválido'
             });
         } else {
+
             jwt.verify(token, process.env.SALT_KEY_JWT, (err, decoded) => {
                 if (err) {
                     res.status(401).json({
