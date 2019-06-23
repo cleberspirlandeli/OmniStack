@@ -108,7 +108,7 @@ module.exports = {
         try {
             const { id = null } = req.params;
 
-            if (id !== null) {
+            if (id !== null && id !== "null") {
                 await Users.findByIdAndDelete(id);
                 res.status(200).send();
             } else {
