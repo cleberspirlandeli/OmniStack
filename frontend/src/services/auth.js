@@ -1,4 +1,3 @@
 export const isAuthenticated = () => {
-    // localstorage
-    return false
+    return localStorage.getItem("x-token") ? true : false;
 }

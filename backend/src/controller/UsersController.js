@@ -46,15 +46,10 @@ module.exports = {
         const token = req.headers['authorization'] || req.body.token || req.query.token || null;
 
         if (token) {
-            const validToken = await DecodedToken(token);
-
-            if (validToken.success) {
-                res.status(200).json({ token: validToken });
-            } else {
-                res.status(200).json({ token: false });
-            }
+            DecodedToken(token, res);
+        } else {
+            res.status(200).json({ token: false });
         }
-        res.status(200).json({ token: false });
     },
 
     // POST - authentication
@@ -103,6 +98,21 @@ module.exports = {
                 return res.status(200).json({ token, user });
             } else {
                 return res.status(400).json({ "sucess": false });
+            }
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    },
+
+    async delete(req, res) {
+        try {
+            const { id = null } = req.params;
+
+            if (id !== null) {
+                await Users.findByIdAndDelete(id);
+                res.status(200).send();
+            } else {
+                res.status(400).send();
             }
         } catch (error) {
             return res.status(500).json(error.message);

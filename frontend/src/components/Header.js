@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <header id="main-header">
       <div className="header-content">
-        <Link to="/">
+        <Link to="/feed">
           <img id="logo" src={fatecgram} alt="logo fatec" />
         </Link>
         <Link to="/new">

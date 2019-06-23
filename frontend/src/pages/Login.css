@@ -10,7 +10,10 @@ main {
 
 body {
     background: #fff;
+    /* background-image: url('./../assets/home-page.png');
+    background-repeat: repeat-y; */
 }
+
 
 .input-field input[type=date]:focus+label,
 .input-field input[type=text]:focus+label,
@@ -26,3 +29,4 @@ body {
     border-bottom: 2px solid #e91e63;
     box-shadow: none;
 }
+

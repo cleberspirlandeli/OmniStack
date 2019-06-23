@@ -38,6 +38,11 @@ p {
   font-weight: bold;
 }
 
+
+input {
+  box-sizing: inherit !important;
+}
+
 /* MOBILE */
 @media only screen and (max-width: 600px) {
   form#new-post{

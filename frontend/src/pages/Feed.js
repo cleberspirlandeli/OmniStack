@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import api from './../services/api';
 import io from 'socket.io-client'
 
+import Header from './../components/Header'
+
 import './Feed.css';
 
 import more from './../assets/more.svg';
@@ -45,43 +47,44 @@ export default class Feed extends Component {
 
     render() {
         return (
-            <section id="post-list">
+            <div>
+                <Header />
+                <section id="post-list">
 
-                {this.state.feed.map(post => (
-                    <article key={post._id}>
-                        <header>
-                            <div className="user-info">
-                                <span>{post.author}</span>
-                                <span className="place">{post.place}</span>
-                            </div>
+                    {this.state.feed.map(post => (
+                        <article key={post._id}>
+                            <header>
+                                <div className="user-info">
+                                    <span>{post.author}</span>
+                                    <span className="place">{post.place}</span>
+                                </div>
 
-                            <img src={more} alt="Mais" />
-                        </header>
+                                <img src={more} alt="Mais" />
+                            </header>
 
-                        <img src={`${process.env.REACT_APP_BASE_URL_API}files/${post.image}`} alt="" />
+                            <img src={`${process.env.REACT_APP_BASE_URL_API}files/${post.image}`} alt="" />
 
-                        <footer>
-                            <div className="actions">
-                                <button type="button" onClick={() => this.handleLike(post._id)}>
-                                    <img src={like} alt="Curtir" />
-                                </button>
-                                <img src={comment} alt="Comentar" />
-                                <img src={send} alt="Enviar" />
-                            </div>
-                            <strong>{post.like} curtidas</strong>
-                            <p>{post.description}
-                                <span>{post.hashtags}</span>
-                            </p>
-                        </footer>
-                    </article>
-                )
+                            <footer>
+                                <div className="actions">
+                                    <button type="button" onClick={() => this.handleLike(post._id)}>
+                                        <img src={like} alt="Curtir" />
+                                    </button>
+                                    <img src={comment} alt="Comentar" />
+                                    <img src={send} alt="Enviar" />
+                                </div>
+                                <strong>{post.like} curtidas</strong>
+                                <p>{post.description}
+                                    <span>{post.hashtags}</span>
+                                </p>
+                            </footer>
+                        </article>
+                    )
 
-                )}
+                    )}
 
+                </section>
+            </div>
 
-
-
-            </section>
         );
     }
 }
