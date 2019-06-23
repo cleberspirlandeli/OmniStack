@@ -13,9 +13,9 @@ module.exports = {
         strHtml += '<p>Precisamos que você confirme seu email para ter acesso a nossa rede.</p>';
         strHtml += '<p>Clique no link a baixo para confirmar</p>';
         strHtml += '<p></p>';
-        strHtml += `<p><a href="${process.env.URL_API}users/active?user=${params._id}" target="_blank"  style="text-decoration: none;cursor:pointer;">CONFIRMAR EMAIL</a></p>`;
+        strHtml += `<p><a href="${process.env.URL_API_FRONT}confirm-register/${params._id}" target="_blank"  style="text-decoration: none;cursor:pointer;">CONFIRMAR EMAIL</a></p>`;
         strHtml += '<p></p>';
-        strHtml += `<p>${process.env.URL_API}users/active?user=${params._id}</p>`;
+        // strHtml += `<p>${process.env.URL_API_FRONT}confirm-register/${params._id}</p>`;
         strHtml += '<p>Obs: Se não receber o email, verifique a caixa de lixo eletrônico.</p>';
         strHtml += '<p style="font-size:12px;color:#000;bottom:0px;margin-top:170px">Desenvolvido por Cleber Rezende</p>'
         strHtml += '</div></div></div>';

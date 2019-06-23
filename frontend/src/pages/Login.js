@@ -299,10 +299,7 @@ export default class Login extends Component {
                                 </div>
                                 <a href style={styles.href} onClick={() => this.stepLogin(0)}>&lt; Voltar</a>
                                 <br /><br />
-                                <small style={{color: 'red'}}>
-                                    Página em desenvolvimento <br />
-                                    mas você receberá o email de confirmação
-                                </small>
+
                                 <div className="section"></div>
                                 <div className="section"></div>
                             </div>

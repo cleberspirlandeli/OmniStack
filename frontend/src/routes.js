@@ -7,6 +7,7 @@ import { isAuthenticated } from './services/auth';
 import Login from './pages/Login';
 import Feed from './pages/Feed';
 import New from './pages/New';
+import ConfirmLogin from './pages/ConfirmLogin';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
@@ -22,6 +23,7 @@ const Routes = () => {
         <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={Login} />
+                <Route exact path="/confirm-register/:id" component={ConfirmLogin} />
                 <PrivateRoute path="/feed" component={Feed} />
                 <PrivateRoute path="/new" component={New} />
             </Switch>
